@@ -1,0 +1,41 @@
+//移动表空间的.DBF文件的步骤
+http://blog.itpub.net/29108856/viewspace-2141749/
+
+以sysdba用户登录：
+
+alter tablespace USERS offline;
+
+关闭oracle服务
+
+将.DBF文件移动新的位置。
+删除旧的.DBF文件。
+
+开启oracle服务
+
+以sysdba用户登录：
+
+alter tablespace USERS rename datafile 'E:\oracle\tablespace\USERS01.DBF' to 'D:\ORACLEDB\ORADATA\ORCL\USERS01.DBF';
+
+alter tablespace USERS online;
+
+
+//ORA-01940 无法删除当前已连接的用户之解决方案
+https://www.cnblogs.com/lwlxqlccc/p/8694696.html
+
+select username,sid,serial#,paddr from v$session where username='用户名';
+
+alter system kill session '634,7';
+
+//oracle 删除表空间及数据文件方法
+https://www.cnblogs.com/Alanf/p/9485550.html
+
+以sysdba用户登录：
+
+--查找工作空间的路径
+select * from dba_data_files;
+
+--删除用户
+drop user 用户名称 cascade;
+
+-删除表空间
+drop tablespace 表空间名称 including contents and datafiles cascade constraint;
